@@ -14,7 +14,7 @@ class API:
         "10.0": "https://version10.string-db.org/",
     }
 
-    def __init__(self, version=None, client=None):
+    def __init__(self, version=None, *, client=None):
         self.client = client
 
         if version:
