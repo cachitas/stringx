@@ -58,11 +58,11 @@ class API:
         self,
         identifiers: List[str],
         species: int,
-        # limit: Optional[int] = None,
+        limit: Optional[int] = None,
     ):
         params = dict(
             identifiers="\r".join(identifiers),
             species=species,
-            # limit=limit,
+            limit=limit,
         )
         return self._get("interaction_partners", params=params)
