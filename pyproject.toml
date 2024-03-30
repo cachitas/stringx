@@ -1,26 +1,24 @@
 [project]
 name = "stringdb"
-version = "0.1.0"
 description = "StringDB"
-authors = [
-    {name = "Hugo Cachitas",email = "hcachitas@gmail.com"},
-]
-dependencies = [
-]
-requires-python = ">=3.8"
+authors = [{ name = "Hugo Cachitas", email = "hcachitas@gmail.com" }]
+dependencies = ["httpx>=0.27.0"]
+requires-python = ">=3.9"
 readme = "README.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/cachitas/stringdb"
+Repository = "https://github.com/cachitas/stringdb"
 
 [build-system]
-requires = ["setuptools>=61", "wheel"]
-build-backend = "setuptools.build_meta"
-
-
-[tool.pdm]
-distribution = true
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
 [tool.pdm.dev-dependencies]
-dev = [
-    "pytest>=8.1.1",
-    "httpx>=0.27.0",
-]
+dev = ["pytest>=8.1.1", "pytest-httpx>=0.30.0"]
+
+[tool.pdm.version]
+source = "file"
+path = "src/stringdb/__init__.py"

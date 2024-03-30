@@ -1,5 +1,14 @@
-from .api import API
+"""
+STRING API client using httpx.
+"""
 
-__all__ = ["API"]
+__version__ = "0.1.0"
 
-CURRENT_VERSION = "12.0"
+from typing import List
+
+from .client import Client
+
+__all__ = ["Client"]
+
+DEFAULT_CALLER_IDENTITY = f"{__name__} {__version__}"
+
