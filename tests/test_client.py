@@ -55,6 +55,51 @@ def test_map_identifiers(httpx_mock):
         client.map_identifiers(["some_identifier"], 7227)
 
 
+def test_network(httpx_mock):
+    httpx_mock.add_response(
+        url=httpx.URL(
+            "https://string-db.org/api/json/network",
+            params={
+                "identifiers": "id1",
+                "species": "7227",
+                "network_type": "functional",
+                "show_query_node_labels": 0,
+                "caller_identity": stringx.DEFAULT_CALLER_IDENTITY,
+            },
+        ),
+        method="POST",
+        json=True,
+    )
+
+    httpx_mock.add_response(
+        url=httpx.URL(
+            "https://string-db.org/api/json/network",
+            params={
+                "identifiers": "id1\rid2",
+                "species": "7227",
+                "required_score": 1,
+                "network_type": "physical",
+                "add_nodes": 2,
+                "show_query_node_labels": 1,
+                "caller_identity": stringx.DEFAULT_CALLER_IDENTITY,
+            },
+        ),
+        method="POST",
+        json=True,
+    )
+
+    with stringx.Client() as client:
+        client.network(["id1"], 7227)
+        client.network(
+            identifiers=["id1", "id2"],
+            species=7227,
+            required_score=1,
+            network_type="physical",
+            add_nodes=2,
+            show_query_node_labels=True,
+        )
+
+
 def test_interaction_partners(httpx_mock):
     httpx_mock.add_response(
         url=httpx.URL(

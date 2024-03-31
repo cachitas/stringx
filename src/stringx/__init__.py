@@ -18,6 +18,11 @@ def map_identifiers(identifiers: List[str], species: int):
         return client.map_identifiers(identifiers=identifiers, species=species)
 
 
+def network(identifiers: List[str], species: int):
+    with Client() as client:
+        return client.network(identifiers=identifiers, species=species)
+
+
 def interaction_partners(identifiers: List[str], species: int):
     with Client() as client:
         return client.interaction_partners(identifiers=identifiers, species=species)

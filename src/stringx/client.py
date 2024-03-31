@@ -48,6 +48,30 @@ class Client(httpx.Client):
         }
         return self.request("get_string_ids", params=params)
 
+    def network(
+        self,
+        identifiers: List[str],
+        species: int,
+        required_score: Optional[float] = None,
+        network_type: str = "functional",
+        add_nodes: Optional[int] = None,
+        show_query_node_labels: bool = False,
+    ):
+        params = dict(
+            identifiers="\r".join(identifiers),
+            species=species,
+            network_type=network_type,
+            show_query_node_labels=int(show_query_node_labels),
+        )
+
+        if required_score:
+            params |= {"required_score": required_score}
+
+        if add_nodes:
+            params |= {"add_nodes": add_nodes}
+
+        return self.request("network", params=params)
+
     def interaction_partners(
         self,
         identifiers: List[str],
