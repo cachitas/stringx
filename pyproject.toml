@@ -10,7 +10,7 @@ dynamic = ["version"]
 
 [project.urls]
 Homepage = "https://pypi.org/project/stringx"
-Repository = "https://github.com/cachitas/stringdb"
+Repository = "https://github.com/cachitas/stringx"
 
 [build-system]
 requires = ["pdm-backend"]
