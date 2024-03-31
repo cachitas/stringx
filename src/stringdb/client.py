@@ -33,7 +33,7 @@ class Client(httpx.Client):
         response.raise_for_status()
         return response.json()
 
-    def get_string_ids(
+    def map_identifiers(
         self,
         identifiers: List[str],
         species: int,
@@ -48,7 +48,7 @@ class Client(httpx.Client):
         }
         return self.request("get_string_ids", params=params)
 
-    def get_interaction_partners(
+    def interaction_partners(
         self,
         identifiers: List[str],
         species: int,

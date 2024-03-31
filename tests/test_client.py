@@ -52,7 +52,7 @@ def test_map_identifiers(httpx_mock):
     )
 
     with stringdb.Client() as client:
-        client.get_string_ids(["some_identifier"], 7227)
+        client.map_identifiers(["some_identifier"], 7227)
 
 
 def test_interaction_partners(httpx_mock):
@@ -70,4 +70,4 @@ def test_interaction_partners(httpx_mock):
     )
 
     with stringdb.Client() as client:
-        client.get_interaction_partners(["id1", "id2"], 7227)
+        client.interaction_partners(["id1", "id2"], 7227)
