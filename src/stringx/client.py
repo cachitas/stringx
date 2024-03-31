@@ -11,7 +11,7 @@ class Client(httpx.Client):
     def __init__(
         self, base_url: str = "https://string-db.org", *, identity: Optional[str] = None
     ) -> None:
-        from stringdb import DEFAULT_CALLER_IDENTITY
+        from stringx import DEFAULT_CALLER_IDENTITY
 
         super().__init__(
             params=dict(caller_identity=identity or DEFAULT_CALLER_IDENTITY),

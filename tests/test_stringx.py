@@ -1,8 +1,8 @@
-import stringdb
+import stringx
 
 
 def test_map_identifiers():
-    identifiers = stringdb.map_identifiers(["edin"], 7227)
+    identifiers = stringx.map_identifiers(["edin"], 7227)
 
     assert len(identifiers) == 1
 
@@ -19,7 +19,7 @@ def test_map_identifiers():
 
 
 def test_interaction_partners():
-    interaction_partners = stringdb.interaction_partners(["edin"], 7227)
+    interaction_partners = stringx.interaction_partners(["edin"], 7227)
 
     assert len(interaction_partners) > 1
 

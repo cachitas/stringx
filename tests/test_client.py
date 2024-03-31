@@ -1,23 +1,23 @@
 import httpx
 
-import stringdb
+import stringx
 
 
 def test_default_base_url():
-    with stringdb.Client() as client:
+    with stringx.Client() as client:
         assert client.base_url.scheme == "https"
         assert client.base_url.host == "string-db.org"
         assert client.base_url.path == "/"
 
 
 def test_custom_address():
-    with stringdb.Client("https://example.com/api/v2") as client:
+    with stringx.Client("https://example.com/api/v2") as client:
         assert client.base_url.host == "example.com"
         assert client.base_url.path == "/api/v2/"
 
 
 def test_timeout():
-    with stringdb.Client() as client:
+    with stringx.Client() as client:
         assert client.timeout.connect == 5.0
         assert client.timeout.pool == 5.0
         assert client.timeout.read == 5.0
@@ -25,13 +25,13 @@ def test_timeout():
 
 
 def test_caller_identity():
-    with stringdb.Client() as client:
-        assert client.params["caller_identity"] == stringdb.DEFAULT_CALLER_IDENTITY
+    with stringx.Client() as client:
+        assert client.params["caller_identity"] == stringx.DEFAULT_CALLER_IDENTITY
 
 
 def test_custom_caller_identity():
     custom_identity = "random tool"
-    with stringdb.Client(identity=custom_identity) as client:
+    with stringx.Client(identity=custom_identity) as client:
         assert client.params["caller_identity"] == custom_identity
 
 
@@ -44,14 +44,14 @@ def test_map_identifiers(httpx_mock):
                 "species": "7227",
                 "limit": 1,
                 "echo_query": True,
-                "caller_identity": stringdb.DEFAULT_CALLER_IDENTITY,
+                "caller_identity": stringx.DEFAULT_CALLER_IDENTITY,
             },
         ),
         method="POST",
         json=True,
     )
 
-    with stringdb.Client() as client:
+    with stringx.Client() as client:
         client.map_identifiers(["some_identifier"], 7227)
 
 
@@ -62,12 +62,12 @@ def test_interaction_partners(httpx_mock):
             params={
                 "identifiers": "id1\rid2",
                 "species": "7227",
-                "caller_identity": stringdb.DEFAULT_CALLER_IDENTITY,
+                "caller_identity": stringx.DEFAULT_CALLER_IDENTITY,
             },
         ),
         method="POST",
         json=True,
     )
 
-    with stringdb.Client() as client:
+    with stringx.Client() as client:
         client.interaction_partners(["id1", "id2"], 7227)
