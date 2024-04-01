@@ -35,7 +35,7 @@ def test_custom_caller_identity():
         assert client.params["caller_identity"] == custom_identity
 
 
-def test_map_identifiers(httpx_mock):
+def test_map(httpx_mock):
     httpx_mock.add_response(
         url=httpx.URL(
             "https://string-db.org/api/json/get_string_ids",
@@ -52,7 +52,7 @@ def test_map_identifiers(httpx_mock):
     )
 
     with stringx.Client() as client:
-        client.map_identifiers(["some_identifier"], 7227)
+        client.map(["some_identifier"], 7227)
 
 
 def test_network(httpx_mock):

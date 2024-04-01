@@ -13,9 +13,9 @@ __all__ = ["Client"]
 DEFAULT_CALLER_IDENTITY = f"{__name__} {__version__}"
 
 
-def map_identifiers(identifiers: List[str], species: int):
+def map(identifiers: List[str], species: int):
     with Client() as client:
-        return client.map_identifiers(identifiers=identifiers, species=species)
+        return client.map(identifiers=identifiers, species=species)
 
 
 def network(identifiers: List[str], species: int):

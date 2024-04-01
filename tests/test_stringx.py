@@ -1,8 +1,8 @@
 import stringx
 
 
-def test_map_identifiers():
-    identifiers = stringx.map_identifiers(["edin"], 7227)
+def test_map():
+    identifiers = stringx.map(["edin"], 7227)
 
     assert len(identifiers) == 1
 

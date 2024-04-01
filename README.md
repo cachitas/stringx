@@ -17,7 +17,7 @@ Firstly, it is recommended that you disambiguate your list of identifiers.
 ```python
 identifiers = ["edin", "atta"]
 
-disambiguated_identifiers = stringx.map_identifiers(identifiers, species=7227)
+disambiguated_identifiers = stringx.map(identifiers, species=7227)
 ```
 
 The `disambiguated_identifiers` JSON response can be manipulated and reused in follow-up calls. For instance:
@@ -54,6 +54,6 @@ Refer to the official [API documentation](https://string-db.org/help/api) for de
 
 | Method                              | API URL                         | **stringx**              |
 | ----------------------------------- | ------------------------------- | ------------------------ |
-| Mapping identifiers                 | /api/json/get_string_ids?       | `map_identifiers()`      |
+| Mapping identifiers                 | /api/json/get_string_ids?       | `map()`                  |
 | Retrieving the interaction network  | /api/tsv/network?               | `network()`              |
 | Retrieving the interaction partners | /api/json/interaction_partners? | `interaction_partners()` |

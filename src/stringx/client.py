@@ -33,7 +33,7 @@ class Client(httpx.Client):
         response.raise_for_status()
         return response.json()
 
-    def map_identifiers(
+    def map(
         self,
         identifiers: List[str],
         species: int,
