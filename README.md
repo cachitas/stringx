@@ -29,7 +29,7 @@ stringx.interaction_partners(identifiers, species=7227)
 
 ## Documentation
 
-Here are some important point to have in mind when using `stringx`:
+Here are some important points to have in mind when using `stringx`:
 
 - Latest API version tested and targeted by default.
 - You should identify yourself beforehand.
