@@ -33,14 +33,12 @@ Here are some important points to have in mind when using `stringx`:
 
 - Latest API version tested and targeted by default.
 - You should identify yourself beforehand.
-- `POST` requests whenever possible as recommended.
-- _Currently_, only `json` format supported.
+- POST requests whenever possible as recommended.
+- _Currently_, only JSON format is supported.
 - When applicable, `species` field is mandatory.
 - Use a custom `stringx.Client()` if you plan to make multiple calls or need to target a previous API version.
 
 ```python
-import stringx
-
 with stringx.Client(base_url="https://version-11-0.string-db.org") as db:
     # remember to disambiguate identifiers first if needed
     network_1 = db.network(identifiers_1, species=7227)
