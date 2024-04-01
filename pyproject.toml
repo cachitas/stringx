@@ -18,6 +18,10 @@ build-backend = "pdm.backend"
 
 [tool.pdm.dev-dependencies]
 dev = ["pytest>=8.1.1", "pytest-httpx>=0.30.0"]
+examples = [
+    "pandas>=2.2.1",
+    "ipykernel>=6.29.4",
+]
 
 [tool.pdm.version]
 source = "file"
