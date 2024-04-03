@@ -90,10 +90,7 @@ class Client(httpx.Client):
 
         return self.request("interaction_partners", params=params)
 
-    def version(self):
-        print(self.params)
-        self.params = {}
-        request = self.build_request("GET", "https://api.example.com")
-        del request.headers["X-Api-Key"]
-
-        return self.request("version", params={})
+    def version(self) -> str:
+        request = self.build_request("GET", "api/json/version")
+        request.url = request.url.copy_remove_param("caller_identity")
+        return self.send(request).json()

@@ -119,12 +119,14 @@ def test_interaction_partners(httpx_mock):
 
 def test_version(httpx_mock):
     httpx_mock.add_response(
-        url=httpx.URL("https://string-db.org/api/json/version"), method="POST", json={}
+        url=httpx.URL("https://string-db.org/api/json/version"),
+        method="GET",
+        json=[
+            {
+                "string_version": "12.0",
+                "stable_address": "https://version-12-0.string-db.org",
+            }
+        ],
     )
     with stringx.Client() as client:
-        version = client.version()
-        version = client.map(["edin"], species=7227)
-        version = client.version()
-
-    print(version)
-    assert version == ""
+        client.version()
