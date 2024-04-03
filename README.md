@@ -1,57 +1,86 @@
 # STRINGX
 
-**STRINGX** is a [STRING](https://string-db.org) API client using [HTTPX](https://www.python-httpx.org).
+[![PyPI Version](https://img.shields.io/pypi/v/stringx?label=PyPI&logo=pypi&logoColor=white&color=006dad)](https://pypi.org/project/stringx/)
+[![Python Version](https://img.shields.io/pypi/pyversions/stringx?label=Python&logo=python&logoColor=white&color=006dad)](https://pypi.org/project/stringx/)
+[![STRING Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fstring-db.org%2Fapi%2Fjson%2Fversion&query=%24%5B0%5D.string_version&style=flat&label=STRING&color=f7f6f2)](https://string-db.org)
 
-## Quickstart
+STRINGX is an API client for the [STRING] database, built on top of [HTTPX].
+
+## Features
+
+Inspired on the well-established usability of `httpx`, STRINGX provides a clean and easy to use interface to the STRING API while following usage recommendations and best practices:
+
+- Requires client identification;
+- Uses POST requests;
+- Allows linking to a specific STRING version;
+- When applicable, enforces specifying the `species` parameter.
+
+A customizable client allows targeting any API version and provides support for all output formats available: TSV, JSON, XML, etc...
+
+## Installation
+
+STRINGX requires Python 3.9+ and is available on [PyPI](https://pypi.org/project/stringx).
 
 ```sh
-pip install stringx
+$ pip install httpx
 ```
+
+## Usage
+
+The `stringx` module provides a direct interface to the current API version. JSON is the default response format and can be easily integrated with `pandas` for further processing.
+
+```python
+import pandas as pd
+import stringx
+
+stringx.identity = ""  # please identify yourself
+
+df = pd.Dataframe(
+    stringx.network(identifiers=["7227.FBpp0074940", "7227.FBpp0082908"], species=7227)
+)
+```
+
+> [!TIP]
+> STRING understands a variety of identifiers and does its best to disambiguate your input. Nevertheless, it is recommended to map your identifiers first. Querying the API with a disambiguated identifier (for example 9606.ENSP00000269305 for human TP53) will guarantee much faster server response.
+
+## Client Identification
+
+The STRING API requires its callers to identify themselves. To address this, STRINGX enforces that the `identity` value is set. If done at the module level all subsequent requests will carry this information.
 
 ```python
 import stringx
+
+stringx.identity = "my_project_name"
 ```
 
-Firstly, it is recommended that you disambiguate your list of identifiers.
+You can also identify your clients independently.
 
 ```python
-identifiers = ["edin", "atta"]
+import stringx
 
-disambiguated_identifiers = stringx.map(identifiers, species=7227)
+with stringx.Client(identity="my_project_name") as client:
+    ...
+
+with stringx.Client(
+    address="https://version-10-5.string-db.org",
+    identity="me@example.com"
+) as client:
+    ...
 ```
 
-The `disambiguated_identifiers` JSON response can be manipulated and reused in follow-up calls. For instance:
+Regardless of how you choose to do it, STRINGX always appends its own information to your identity.
 
-```python
-stringx.network(identifiers, species=7227)
-stringx.interaction_partners(identifiers, species=7227)
-```
+Using one of the clients instantiated above as example, the `caller_identity` parameters passed to the STRING API would be `my_project_name (stringx-0.3.0)`.
 
 ## Documentation
 
-Here are some important points to have in mind when using `stringx`:
+🚧🚧🚧
 
-- Latest API version tested and targeted by default.
-- You should identify yourself beforehand.
-- POST requests whenever possible as recommended.
-- _Currently_, only JSON format is supported.
-- When applicable, `species` field is mandatory.
-- Use a custom `stringx.Client()` if you plan to make multiple calls or need to target a previous API version.
-
-```python
-with stringx.Client(base_url="https://version-11-0.string-db.org") as db:
-    # remember to disambiguate identifiers first if needed
-    network_1 = db.network(identifiers_1, species=7227)
-    network_2 = db.network(identifiers_2, species=9606)
-```
-
-This tool aims at following best practices defined by STRING.
 Refer to the official [API documentation](https://string-db.org/help/api) for details.
 
-## API Endpoints Implemented
+## License
 
-| Method                              | API URL                         | **stringx**              |
-| ----------------------------------- | ------------------------------- | ------------------------ |
-| Mapping identifiers                 | /api/json/get_string_ids?       | `map()`                  |
-| Retrieving the interaction network  | /api/tsv/network?               | `network()`              |
-| Retrieving the interaction partners | /api/json/interaction_partners? | `interaction_partners()` |
+[STRING] data is freely available under a [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) license. Please provide appropriate credit when using the data. No changes or additions are made to the data by STRINGX.
+
+[STRING]: https://string-db.org
+[HTTPX]: https://www.python-httpx.org
