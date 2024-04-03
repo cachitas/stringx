@@ -1,5 +1,4 @@
 import httpx
-
 import stringx
 
 
@@ -116,3 +115,16 @@ def test_interaction_partners(httpx_mock):
 
     with stringx.Client() as client:
         client.interaction_partners(["id1", "id2"], 7227)
+
+
+def test_version(httpx_mock):
+    httpx_mock.add_response(
+        url=httpx.URL("https://string-db.org/api/json/version"), method="POST", json={}
+    )
+    with stringx.Client() as client:
+        version = client.version()
+        version = client.map(["edin"], species=7227)
+        version = client.version()
+
+    print(version)
+    assert version == ""
