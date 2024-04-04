@@ -37,3 +37,8 @@ def test_network(httpx_mock):
 def test_interaction_partners(httpx_mock):
     httpx_mock.add_response(json=True)
     stringx.interaction_partners(["id1"], 1234)
+
+
+def test_homology(httpx_mock):
+    httpx_mock.add_response(json=True)
+    stringx.homology(["id1"], 1234)

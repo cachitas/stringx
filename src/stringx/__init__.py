@@ -36,6 +36,15 @@ def interaction_partners(identifiers: list[str], species: int):
         )
 
 
+def homology(identifiers: list[str], species: int):
+    with Client(identity=identity) as client:
+        return (
+            client.homology(identifiers=identifiers, species=species)
+            .raise_for_status()
+            .json()
+        )
+
+
 def version():
     with Client(identity=identity) as client:
         return client.version()
