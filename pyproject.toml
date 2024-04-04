@@ -59,7 +59,7 @@ examples = ["pandas>=2.2.1", "ipykernel>=6.29.4"]
 
 [tool.pdm.version]
 source = "file"
-path = "src/stringx/__init__.py"
+path = "src/stringx/client.py"
 
 [tool.ruff]
 lint.select = [
