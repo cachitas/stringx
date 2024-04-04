@@ -8,7 +8,7 @@ STRINGX is an API client for the [STRING] database, built on top of [HTTPX].
 
 ## Features
 
-Inspired on the well-established usability of `httpx`, STRINGX provides a clean and easy to use interface to the STRING API while following usage recommendations and best practices:
+Inspired on the well-established usability of `httpx`, `stringx` provides a clean and easy to use interface to the STRING API while following usage recommendations and best practices:
 
 - Requires client identification;
 - Uses POST requests;
@@ -22,7 +22,7 @@ A customizable client allows targeting any API version and provides support for 
 STRINGX requires Python 3.9+ and is available on [PyPI](https://pypi.org/project/stringx).
 
 ```sh
-$ pip install httpx
+$ pip install stringx
 ```
 
 ## Usage
