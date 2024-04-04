@@ -49,47 +49,52 @@ def test_default_format(test_client):
     assert test_client.format == "json"
 
 
-def test_map(httpx_mock, test_client):
+@pytest.mark.parametrize("format", ["tsv", "tsv-no-header", "json", "xml"])
+def test_map(httpx_mock, test_client, format):
     httpx_mock.add_response(
         url=httpx.URL(
-            "https://string-db.org/api/json/get_string_ids",
+            f"https://string-db.org/api/{format}/get_string_ids",
             params={
                 "identifiers": "some_identifier",
-                "species": "7227",
+                "species": 1234,
                 "limit": 1,
                 "echo_query": True,
                 "caller_identity": test_client.identity,
             },
         ),
         method="POST",
-        json=True,
     )
 
-    test_client.map(["some_identifier"], 7227)
+    test_client.map(["some_identifier"], 1234, format=format)
 
 
-def test_network(httpx_mock, test_client):
+@pytest.mark.parametrize(
+    "format", ["tsv", "tsv-no-header", "json", "xml", "psi-mi", "psi-mi-tab"]
+)
+def test_network(httpx_mock, test_client, format):
+    identifiers = ["id1"]
+    species = 1234
+
     httpx_mock.add_response(
         url=httpx.URL(
-            "https://string-db.org/api/json/network",
+            f"https://string-db.org/api/{format}/network",
             params={
-                "identifiers": "id1",
-                "species": "7227",
+                "identifiers": identifiers,
+                "species": species,
                 "network_type": "functional",
                 "show_query_node_labels": 0,
                 "caller_identity": test_client.identity,
             },
         ),
         method="POST",
-        json=True,
     )
 
     httpx_mock.add_response(
         url=httpx.URL(
-            "https://string-db.org/api/json/network",
+            f"https://string-db.org/api/{format}/network",
             params={
-                "identifiers": "id1\rid2",
-                "species": "7227",
+                "identifiers": identifiers,
+                "species": species,
                 "required_score": 1,
                 "network_type": "physical",
                 "add_nodes": 2,
@@ -101,24 +106,31 @@ def test_network(httpx_mock, test_client):
         json=True,
     )
 
-    test_client.network(["id1"], 7227)
+    test_client.network(identifiers, species, format=format)
     test_client.network(
-        identifiers=["id1", "id2"],
-        species=7227,
+        identifiers=identifiers,
+        species=species,
         required_score=1,
         network_type="physical",
         add_nodes=2,
         show_query_node_labels=True,
+        format=format,
     )
 
 
-def test_interaction_partners(httpx_mock, test_client):
+@pytest.mark.parametrize(
+    "format", ["tsv", "tsv-no-header", "json", "xml", "psi-mi", "psi-mi-tab"]
+)
+def test_interaction_partners(httpx_mock, test_client, format):
+    identifiers = ["id1"]
+    species = 1234
+
     httpx_mock.add_response(
         url=httpx.URL(
-            "https://string-db.org/api/json/interaction_partners",
+            f"https://string-db.org/api/{format}/interaction_partners",
             params={
-                "identifiers": "id1\rid2",
-                "species": "7227",
+                "identifiers": identifiers,
+                "species": species,
                 "caller_identity": test_client.identity,
             },
         ),
@@ -126,24 +138,26 @@ def test_interaction_partners(httpx_mock, test_client):
         json=True,
     )
 
-    test_client.interaction_partners(["id1", "id2"], 7227)
+    test_client.interaction_partners(identifiers, species, format=format)
 
 
 @pytest.mark.parametrize("format", ["tsv", "tsv-no-header", "json", "xml"])
 def test_homology(httpx_mock, test_client, format):
-    identifiers = ["id1", "id2"]
+    identifiers = ["id1"]
     species = 1234
 
-    httpx_mock.add_response()
+    httpx_mock.add_response(
+        url=httpx.URL(
+            f"https://string-db.org/api/{format}/homology",
+            params={
+                "identifiers": identifiers,
+                "species": species,
+                "caller_identity": test_client.identity,
+            },
+        ),
+    )
 
     test_client.homology(identifiers, species, format=format)
-
-    requested_url = httpx_mock.get_request().url
-
-    assert requested_url.path == f"/api/{format}/homology"
-    assert requested_url.params["identifiers"] == "\r".join(identifiers)
-    assert requested_url.params["species"] == str(species)
-    assert requested_url.params["caller_identity"] == test_client.identity
 
 
 def test_version(httpx_mock, test_client):

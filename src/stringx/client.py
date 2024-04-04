@@ -21,45 +21,39 @@ class Client(httpx.Client):
             base_url=base_url,
         )
 
-    def request(
-        self,
-        endpoint: str,
-        params: dict | None = None,
-        *,
-        method: str = "POST",
-        format: str = "json",
-    ):
-        if params is None:
-            params = {}
-        url = "/".join(["api", format, endpoint])
-        response = super().request(method, url, params=params)
-        response.raise_for_status()
-        return response.json()
-
     def map(
         self,
         identifiers: list[str],
         species: int,
+        *,
         limit: int = 1,
         echo_query: bool = True,
+        format: str | None = None,
     ):
+        url = f"api/{format or self.format}/get_string_ids"
+
         params = {
             "identifiers": "\r".join(identifiers),  # your protein list
             "species": species,  # species NCBI identifier
             "limit": limit,  # only one (best) identifier per input protein
             "echo_query": echo_query,  # see your input identifiers in the output
         }
-        return self.request("get_string_ids", params=params)
+
+        return self.post(url, params=params)
 
     def network(
         self,
         identifiers: list[str],
         species: int,
+        *,
         required_score: float | None = None,
         network_type: str = "functional",
         add_nodes: int | None = None,
         show_query_node_labels: bool = False,
+        format: str | None = None,
     ):
+        url = f"api/{format or self.format}/network"
+
         params = {
             "identifiers": "\r".join(identifiers),
             "species": species,
@@ -73,14 +67,18 @@ class Client(httpx.Client):
         if add_nodes:
             params |= {"add_nodes": add_nodes}
 
-        return self.request("network", params=params)
+        return self.post(url, params=params)
 
     def interaction_partners(
         self,
         identifiers: list[str],
         species: int,
+        *,
         limit: int | None = None,
+        format: str | None = None,
     ):
+        url = f"api/{format or self.format}/interaction_partners"
+
         params = {
             "identifiers": "\r".join(identifiers),
             "species": species,
@@ -89,7 +87,7 @@ class Client(httpx.Client):
         if limit:
             params.update(limit=limit)
 
-        return self.request("interaction_partners", params=params)
+        return self.post(url, params=params)
 
     def homology(
         self, identifiers: list[str], species: int, *, format: str | None = None
