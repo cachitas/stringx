@@ -14,6 +14,8 @@ class Client(httpx.Client):
 
         self.identity = f"{identity} (python-stringx/{__version__})"
 
+        self.format = "json"
+
         super().__init__(
             params={"caller_identity": self.identity},
             base_url=base_url,
