@@ -1,4 +1,27 @@
+import pytest
 import stringx
+
+stringx.identity = "test client"
+
+
+def test_invalid_identity():
+    stringx.identity = ""
+
+    with pytest.raises(ValueError):
+        stringx.network(["7227.FBpp0074940"], species=7227)
+
+
+def test_valid_identity(httpx_mock):
+    httpx_mock.add_response(json={})
+
+    stringx.identity = "someone"
+
+    stringx.network(["7227.FBpp0074940"], species=7227)
+
+    assert (
+        httpx_mock.get_request().url.params["caller_identity"]
+        == f"{stringx.identity} (python-stringx/{stringx.__version__})"
+    )
 
 
 def test_map():

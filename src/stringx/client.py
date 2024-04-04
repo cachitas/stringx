@@ -2,17 +2,20 @@ import logging
 
 import httpx
 
-logger = logging.getLogger(__name__)
+__version__ = "0.3.0"
+
+logger = logging.getLogger("stringx")
 
 
 class Client(httpx.Client):
-    def __init__(
-        self, base_url: str = "https://string-db.org", *, identity: str | None = None
-    ) -> None:
-        from stringx import DEFAULT_CALLER_IDENTITY
+    def __init__(self, identity: str, base_url: str = "https://string-db.org") -> None:
+        if not identity:
+            raise ValueError("Client identity must be a non-empty string.")
+
+        self.identity = f"{identity} (python-stringx/{__version__})"
 
         super().__init__(
-            params={"caller_identity": identity or DEFAULT_CALLER_IDENTITY},
+            params={"caller_identity": self.identity},
             base_url=base_url,
         )
 
@@ -27,11 +30,7 @@ class Client(httpx.Client):
         if params is None:
             params = {}
         url = "/".join(["api", format, endpoint])
-        logger.info("POST", url, params)
-        print("params BEFORE request", self.params)
         response = super().request(method, url, params=params)
-        print("params AFTER  request", self.params)
-        logger.info(response.status_code)
         response.raise_for_status()
         return response.json()
 

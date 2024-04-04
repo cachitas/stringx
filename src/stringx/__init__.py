@@ -2,30 +2,28 @@
 STRING API client using httpx.
 """
 
-from .client import Client
+from .client import Client, __version__
 
-__version__ = "0.3.0"
+__all__ = ["__version__", "Client"]
 
-__all__ = ["Client"]
-
-DEFAULT_CALLER_IDENTITY = f"{__name__} {__version__}"
+identity = ""
 
 
 def map(identifiers: list[str], species: int):
-    with Client() as client:
+    with Client(identity=identity) as client:
         return client.map(identifiers=identifiers, species=species)
 
 
 def network(identifiers: list[str], species: int):
-    with Client() as client:
+    with Client(identity=identity) as client:
         return client.network(identifiers=identifiers, species=species)
 
 
 def interaction_partners(identifiers: list[str], species: int):
-    with Client() as client:
+    with Client(identity=identity) as client:
         return client.interaction_partners(identifiers=identifiers, species=species)
 
 
 def version():
-    with Client() as client:
+    with Client(identity=identity) as client:
         return client.version()
