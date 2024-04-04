@@ -45,7 +45,7 @@ def test_custom_caller_identity():
         assert client.params["caller_identity"] == client.identity
 
 
-def test_default_format(httpx_mock, test_client):
+def test_default_format(test_client):
     assert test_client.format == "json"
 
 
