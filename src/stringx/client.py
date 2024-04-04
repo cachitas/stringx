@@ -91,6 +91,18 @@ class Client(httpx.Client):
 
         return self.request("interaction_partners", params=params)
 
+    def homology(
+        self, identifiers: list[str], species: int, *, format: str | None = None
+    ):
+        url = f"api/{format or self.format}/homology"
+
+        params = {
+            "identifiers": "\r".join(identifiers),
+            "species": species,
+        }
+
+        return self.post(url, params=params)
+
     def version(self) -> str:
         request = self.build_request("GET", "api/json/version")
         request.url = request.url.copy_remove_param("caller_identity")

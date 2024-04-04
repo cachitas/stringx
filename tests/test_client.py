@@ -129,6 +129,23 @@ def test_interaction_partners(httpx_mock, test_client):
     test_client.interaction_partners(["id1", "id2"], 7227)
 
 
+@pytest.mark.parametrize("format", ["tsv", "tsv-no-header", "json", "xml"])
+def test_homology(httpx_mock, test_client, format):
+    identifiers = ["id1", "id2"]
+    species = 1234
+
+    httpx_mock.add_response()
+
+    test_client.homology(identifiers, species, format=format)
+
+    requested_url = httpx_mock.get_request().url
+
+    assert requested_url.path == f"/api/{format}/homology"
+    assert requested_url.params["identifiers"] == "\r".join(identifiers)
+    assert requested_url.params["species"] == str(species)
+    assert requested_url.params["caller_identity"] == test_client.identity
+
+
 def test_version(httpx_mock, test_client):
     httpx_mock.add_response(
         url=httpx.URL("https://string-db.org/api/json/version"),
