@@ -29,7 +29,7 @@ class Client(httpx.Client):
         limit: int = 1,
         echo_query: bool = True,
         format: str | None = None,
-    ):
+    ) -> httpx.Response:
         url = f"api/{format or self.format}/get_string_ids"
 
         params = httpx.QueryParams(
@@ -51,7 +51,7 @@ class Client(httpx.Client):
         add_nodes: int | None = None,
         show_query_node_labels: bool = False,
         format: str | None = None,
-    ):
+    ) -> httpx.Response:
         url = f"api/{format or self.format}/network"
 
         params = httpx.QueryParams(
@@ -76,7 +76,7 @@ class Client(httpx.Client):
         *,
         limit: int | None = None,
         format: str | None = None,
-    ):
+    ) -> httpx.Response:
         url = f"api/{format or self.format}/interaction_partners"
 
         params = httpx.QueryParams(
@@ -91,7 +91,7 @@ class Client(httpx.Client):
 
     def homology(
         self, identifiers: list[str], species: int, *, format: str | None = None
-    ):
+    ) -> httpx.Response:
         url = f"api/{format or self.format}/homology"
 
         params = httpx.QueryParams(
