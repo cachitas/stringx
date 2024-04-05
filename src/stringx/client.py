@@ -32,12 +32,12 @@ class Client(httpx.Client):
     ):
         url = f"api/{format or self.format}/get_string_ids"
 
-        params = {
-            "identifiers": "\r".join(identifiers),  # your protein list
-            "species": species,  # species NCBI identifier
-            "limit": limit,  # only one (best) identifier per input protein
-            "echo_query": echo_query,  # see your input identifiers in the output
-        }
+        params = httpx.QueryParams(
+            identifiers="\r".join(identifiers),
+            species=species,
+            limit=limit,
+            echo_query=echo_query,
+        )
 
         return self.post(url, params=params)
 
@@ -54,18 +54,18 @@ class Client(httpx.Client):
     ):
         url = f"api/{format or self.format}/network"
 
-        params = {
-            "identifiers": "\r".join(identifiers),
-            "species": species,
-            "network_type": network_type,
-            "show_query_node_labels": int(show_query_node_labels),
-        }
+        params = httpx.QueryParams(
+            identifiers="\r".join(identifiers),
+            species=species,
+            network_type=network_type,
+            show_query_node_labels=int(show_query_node_labels),
+        )
 
         if required_score:
-            params |= {"required_score": required_score}
+            params = params.add("required_score", required_score)
 
         if add_nodes:
-            params |= {"add_nodes": add_nodes}
+            params = params.add("add_nodes", add_nodes)
 
         return self.post(url, params=params)
 
@@ -79,13 +79,13 @@ class Client(httpx.Client):
     ):
         url = f"api/{format or self.format}/interaction_partners"
 
-        params = {
-            "identifiers": "\r".join(identifiers),
-            "species": species,
-        }
+        params = httpx.QueryParams(
+            identifiers="\r".join(identifiers),
+            species=species,
+        )
 
         if limit:
-            params.update(limit=limit)
+            params = params.add("limit", limit)
 
         return self.post(url, params=params)
 
@@ -94,10 +94,10 @@ class Client(httpx.Client):
     ):
         url = f"api/{format or self.format}/homology"
 
-        params = {
-            "identifiers": "\r".join(identifiers),
-            "species": species,
-        }
+        params = httpx.QueryParams(
+            identifiers="\r".join(identifiers),
+            species=species,
+        )
 
         return self.post(url, params=params)
 
