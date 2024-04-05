@@ -73,3 +73,13 @@ lint.select = [
 ]
 
 extend-include = ["*.ipynb"]
+
+[tool.mypy]
+mypy_path = "$MYPY_CONFIG_FILE_DIR/src"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+xfail_strict = true
+markers = ["network: tests that need network", "integration: integration tests"]
