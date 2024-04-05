@@ -2,6 +2,8 @@
 STRING API client using httpx.
 """
 
+import typing
+
 from .client import Client, __version__
 
 __all__ = ["__version__", "Client"]
@@ -15,7 +17,7 @@ def map(
     *,
     limit: int = 1,
     echo_query: bool = True,
-):
+) -> typing.Any:
     with Client(identity=identity) as client:
         return (
             client.map(
@@ -37,7 +39,7 @@ def network(
     network_type: str = "functional",
     add_nodes: int | None = None,
     show_query_node_labels: bool = False,
-):
+) -> typing.Any:
     with Client(identity=identity) as client:
         return (
             client.network(
@@ -55,7 +57,7 @@ def network(
 
 def interaction_partners(
     identifiers: list[str], species: int, limit: int | None = None
-):
+) -> typing.Any:
     with Client(identity=identity) as client:
         return (
             client.interaction_partners(
@@ -68,7 +70,7 @@ def interaction_partners(
         )
 
 
-def homology(identifiers: list[str], species: int):
+def homology(identifiers: list[str], species: int) -> typing.Any:
     with Client(identity=identity) as client:
         return (
             client.homology(identifiers=identifiers, species=species)
