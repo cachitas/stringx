@@ -70,7 +70,7 @@ with stringx.Client(
 
 Regardless of how you choose to do it, STRINGX always appends its own information to your identity.
 
-Using one of the clients instantiated above as example, the `caller_identity` parameters passed to the STRING API would be `my_project_name (python-stringx/0.3.0)`.
+Using one of the clients instantiated above as example, the `caller_identity` parameters passed to the STRING API would be `my_project_name (python-stringx/x.y.z)`.
 
 ## Documentation
 
