@@ -79,6 +79,24 @@ def homology(identifiers: list[str], species: int) -> typing.Any:
         )
 
 
+def enrichment(
+    identifiers: list[str],
+    species: int,
+    *,
+    background_identifiers: list[str] | None = None,
+) -> typing.Any:
+    with Client(identity=identity) as client:
+        return (
+            client.enrichment(
+                identifiers=identifiers,
+                species=species,
+                background_identifiers=background_identifiers,
+            )
+            .raise_for_status()
+            .json()
+        )
+
+
 def version():
     with Client(identity=identity) as client:
         return client.version()

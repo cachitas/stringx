@@ -160,6 +160,32 @@ def test_homology(httpx_mock, test_client, format):
     test_client.homology(identifiers, species, format=format)
 
 
+@pytest.mark.parametrize("format", ["tsv", "tsv-no-header", "json", "xml"])
+def test_enrichment(httpx_mock, test_client, format):
+    identifiers = ["id1"]
+    background_identifiers = ["id2"]
+    species = 1234
+
+    httpx_mock.add_response(
+        url=httpx.URL(
+            f"https://string-db.org/api/{format}/enrichment",
+            params={
+                "identifiers": identifiers,
+                "background_string_identifiers": background_identifiers,
+                "species": species,
+                "caller_identity": test_client.identity,
+            },
+        ),
+    )
+
+    test_client.enrichment(
+        identifiers,
+        species,
+        background_identifiers=background_identifiers,
+        format=format,
+    )
+
+
 def test_version(httpx_mock, test_client):
     httpx_mock.add_response(
         url=httpx.URL("https://string-db.org/api/json/version"),

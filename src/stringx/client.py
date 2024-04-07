@@ -101,6 +101,27 @@ class Client(httpx.Client):
 
         return self.post(url, params=params)
 
+    def enrichment(
+        self,
+        identifiers: list[str],
+        species: int,
+        *,
+        background_identifiers: list[str] | None = None,
+        format: str | None = None,
+    ) -> httpx.Response:
+        url = f"api/{format or self.format}/enrichment"
+
+        params = httpx.QueryParams(
+            identifiers="\r".join(identifiers),
+            species=species,
+        )
+        if background_identifiers:
+            params = params.add(
+                "background_string_identifiers", "\r".join(background_identifiers)
+            )
+
+        return self.post(url, params=params)
+
     def version(self) -> str:
         request = self.build_request("GET", "api/json/version")
         request.url = request.url.copy_remove_param("caller_identity")

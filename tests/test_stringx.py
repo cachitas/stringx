@@ -49,3 +49,9 @@ def test_interaction_partners(httpx_mock):
 def test_homology(httpx_mock):
     httpx_mock.add_response(json=True)
     stringx.homology(["id1"], 1234)
+
+
+def test_enrichment(httpx_mock):
+    httpx_mock.add_response(json=True)
+    stringx.enrichment(["id1"], 1234)
+    stringx.enrichment(["id1"], 1234, background_identifiers=["id2"])
