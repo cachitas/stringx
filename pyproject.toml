@@ -62,7 +62,16 @@ source = "file"
 path = "src/stringx/client.py"
 
 [tool.pdm.scripts]
-test = "pytest -v tests/"
+test = "pytest"
+tox = "tox"
+# coverage = { shell = """\
+#                     python -m pytest \
+#                               --verbosity=3 \
+#                               --cov=src/pdm \
+#                               --cov-branch \
+#                               --cov-report term-missing \
+#                               tests/
+#                     """ }
 
 [tool.isort]
 profile = "black"
