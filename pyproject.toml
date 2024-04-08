@@ -64,6 +64,9 @@ path = "src/stringx/client.py"
 [tool.pdm.scripts]
 test = "pytest -v tests/"
 
+[tool.isort]
+profile = "black"
+
 [tool.ruff]
 lint.select = [
     "B",  # flake8-bugbear
@@ -74,7 +77,6 @@ lint.select = [
     "W",  # pycodestyle - Warning
     "UP", # pyupgrade
 ]
-
 extend-include = ["*.ipynb"]
 
 [tool.mypy]
