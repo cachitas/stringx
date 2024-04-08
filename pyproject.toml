@@ -7,7 +7,7 @@ name = "stringx"
 description = "STRING DB API Client"
 authors = [{ name = "Hugo Cachitas", email = "hcachitas@gmail.com" }]
 dependencies = ["httpx>=0.27.0"]
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 readme = "README.md"
 keywords = [
     "string",
@@ -32,10 +32,10 @@ classifiers = [
     "Topic :: Software Development :: Build Tools",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
-    # "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    # "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: Bio-Informatics",
     "Typing :: Typed",

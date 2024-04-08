@@ -2,6 +2,8 @@
 STRING API client using httpx.
 """
 
+from __future__ import annotations  # required in Python 3.9
+
 import typing
 
 from .client import Client, __version__
