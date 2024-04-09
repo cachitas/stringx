@@ -24,10 +24,9 @@ jobs:
         run: pdm publish
 
       - name: Create Release
-        uses: actions/create-release@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref }}
-          release_name: v${{ github.ref }}
           draft: false
+          files: ./dist/*
+          name: v${{ github.ref }}
+          tag_name: ${{ github.ref }}
