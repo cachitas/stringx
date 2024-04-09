@@ -26,5 +26,5 @@ jobs:
         with:
           draft: false
           files: ./dist/*
-          name: v${{ github.ref }}
-          tag_name: ${{ github.ref }}
+          name: v${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
