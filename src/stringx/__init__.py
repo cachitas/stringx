@@ -99,6 +99,6 @@ def enrichment(
         )
 
 
-def version():
+def get_version() -> typing.Any:
     with Client(identity=identity) as client:
-        return client.version()
+        return client.get_version().raise_for_status().json()

@@ -186,16 +186,71 @@ def test_enrichment(httpx_mock, test_client, format):
     )
 
 
-def test_version(httpx_mock, test_client):
+@pytest.mark.parametrize("format", ["tsv", "tsv-no-header", "json", "xml"])
+def test_get_version(httpx_mock, test_client, format):
     httpx_mock.add_response(
-        url=httpx.URL("https://string-db.org/api/json/version"),
+        url=httpx.URL(f"https://string-db.org/api/{format}/version"),
         method="GET",
+    )
+    assert test_client.get_version(format=format)
+
+
+def test_metadata(httpx_mock, test_client):
+    version = "12.0"
+    stable_address = "https://version-12-0.string-db.org"
+
+    httpx_mock.add_response(
         json=[
             {
-                "string_version": "12.0",
-                "stable_address": "https://version-12-0.string-db.org",
+                "string_version": version,
+                "stable_address": stable_address,
             }
-        ],
+        ]
+    )
+    assert test_client.version == version
+    assert test_client.stable_address == stable_address
+
+
+def test_client_metadata_is_independent(httpx_mock):
+    version = "12.0"
+    stable_address = "https://version-12-0.string-db.org"
+
+    httpx_mock.add_response(
+        json=[
+            {
+                "string_version": version,
+                "stable_address": stable_address,
+            }
+        ]
     )
 
-    test_client.version()
+    with stringx.Client("test") as client:
+        assert client.version == version
+
+    with stringx.Client("test") as client:
+        assert client.stable_address == stable_address
+
+    assert len(httpx_mock.get_requests()) == 2
+
+
+def test_metadata_is_saved_for_subsequent_requests(httpx_mock):
+    version = "12.0"
+    stable_address = "https://version-12-0.string-db.org"
+
+    httpx_mock.add_response(
+        json=[
+            {
+                "string_version": version,
+                "stable_address": stable_address,
+            }
+        ]
+    )
+
+    with stringx.Client("test") as client:
+        assert client.version == version
+        assert client.version == version
+        assert client.stable_address == stable_address
+        assert client.stable_address == stable_address
+
+    # multiple property calls should only result in a single call to the API
+    assert len(httpx_mock.get_requests()) == 1

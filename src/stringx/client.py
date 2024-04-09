@@ -23,6 +23,27 @@ class Client(httpx.Client):
             base_url=base_url,
         )
 
+    def _update_metadata(self) -> None:
+        data = self.get_version().json()
+        self._version: str = data[0]["string_version"]
+        self._stable_address: str = data[0]["stable_address"]
+
+    @property
+    def version(self) -> str:
+        try:
+            return self._version
+        except AttributeError:
+            self._update_metadata()
+            return self._version
+
+    @property
+    def stable_address(self) -> str:
+        try:
+            return self._stable_address
+        except AttributeError:
+            self._update_metadata()
+            return self._stable_address
+
     def map(
         self,
         identifiers: list[str],
@@ -124,7 +145,7 @@ class Client(httpx.Client):
 
         return self.post(url, params=params)
 
-    def version(self) -> str:
-        request = self.build_request("GET", "api/json/version")
+    def get_version(self, *, format: str | None = None) -> httpx.Response:
+        request = self.build_request("GET", f"api/{format or self.format}/version")
         request.url = request.url.copy_remove_param("caller_identity")
-        return self.send(request).json()
+        return self.send(request)
