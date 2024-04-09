@@ -55,7 +55,6 @@ dev = [
 test = [
     "pytest>=8.1.1",
     "pytest-httpx>=0.30.0",
-    "flake8>=7.0.0",
 ]
 lint = [
     "ruff>=0.3.5",
