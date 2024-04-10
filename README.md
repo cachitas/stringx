@@ -2,6 +2,9 @@
 
 [![PyPI Version](https://img.shields.io/pypi/v/stringx?label=PyPI&logo=pypi&logoColor=white&color=006dad)](https://pypi.org/project/stringx/)
 [![Python Version](https://img.shields.io/pypi/pyversions/stringx?label=Python&logo=python&logoColor=white&color=006dad)](https://pypi.org/project/stringx/)
+
+![CI Status](https://github.com/cachitas/stringx/actions/workflows/ci.yml/badge.svg)
+
 [![STRING Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fstring-db.org%2Fapi%2Fjson%2Fversion&query=%24%5B0%5D.string_version&style=flat&label=STRING&color=f7f6f2)](https://string-db.org)
 
 STRINGX is an API client for the [STRING] database, built on top of [HTTPX].
