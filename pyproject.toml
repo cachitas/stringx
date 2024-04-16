@@ -101,3 +101,23 @@ warn_unused_configs = true
 [tool.pytest.ini_options]
 xfail_strict = true
 markers = ["network: tests that need network", "integration: integration tests"]
+
+[tool.semantic_release]
+major_on_zero = true
+allow_zero_version = true
+tag_format = "v{version}"
+version_variables = ["src/stringx/client.py:__version__"]
+build_command = "pdm build"
+
+[tool.semantic_release.branches.main]
+match = "(main|master)"
+prerelease_token = "rc"
+prerelease = false
+
+[tool.semantic_release.changelog]
+template_dir = "templates"
+changelog_file = "CHANGELOG.md"
+exclude_commit_patterns = []
+
+[tool.semantic_release.remote]
+ignore_token_for_push = true
