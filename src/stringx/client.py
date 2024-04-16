@@ -4,7 +4,7 @@ import logging
 
 import httpx
 
-__version__ = "0.7.5"
+__version__ = "0.1.0"
 
 logger = logging.getLogger("stringx")
 
