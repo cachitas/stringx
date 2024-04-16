@@ -103,6 +103,7 @@ xfail_strict = true
 markers = ["network: tests that need network", "integration: integration tests"]
 
 [tool.semantic_release]
+strict = true
 major_on_zero = true
 allow_zero_version = true
 tag_format = "v{version}"
