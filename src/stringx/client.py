@@ -64,7 +64,7 @@ class Client(httpx.Client):
 
         return self.post(url, params=params)
 
-    def network(
+    def get_network(
         self,
         identifiers: list[str],
         species: int,
@@ -92,7 +92,7 @@ class Client(httpx.Client):
 
         return self.post(url, params=params)
 
-    def interaction_partners(
+    def get_interaction_partners(
         self,
         identifiers: list[str],
         species: int,
@@ -112,7 +112,7 @@ class Client(httpx.Client):
 
         return self.post(url, params=params)
 
-    def homology(
+    def get_homology(
         self, identifiers: list[str], species: int, *, format: str | None = None
     ) -> httpx.Response:
         url = f"api/{format or self.format}/homology"
@@ -124,7 +124,7 @@ class Client(httpx.Client):
 
         return self.post(url, params=params)
 
-    def enrichment(
+    def get_enrichment(
         self,
         identifiers: list[str],
         species: int,

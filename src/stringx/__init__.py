@@ -33,7 +33,7 @@ def map(
         )
 
 
-def network(
+def get_network(
     identifiers: list[str],
     species: int,
     *,
@@ -44,7 +44,7 @@ def network(
 ) -> typing.Any:
     with Client(identity=identity) as client:
         return (
-            client.network(
+            client.get_network(
                 identifiers=identifiers,
                 species=species,
                 required_score=required_score,
@@ -57,12 +57,12 @@ def network(
         )
 
 
-def interaction_partners(
+def get_interaction_partners(
     identifiers: list[str], species: int, limit: int | None = None
 ) -> typing.Any:
     with Client(identity=identity) as client:
         return (
-            client.interaction_partners(
+            client.get_interaction_partners(
                 identifiers=identifiers,
                 species=species,
                 limit=limit,
@@ -72,16 +72,16 @@ def interaction_partners(
         )
 
 
-def homology(identifiers: list[str], species: int) -> typing.Any:
+def get_homology(identifiers: list[str], species: int) -> typing.Any:
     with Client(identity=identity) as client:
         return (
-            client.homology(identifiers=identifiers, species=species)
+            client.get_homology(identifiers=identifiers, species=species)
             .raise_for_status()
             .json()
         )
 
 
-def enrichment(
+def get_enrichment(
     identifiers: list[str],
     species: int,
     *,
@@ -89,7 +89,7 @@ def enrichment(
 ) -> typing.Any:
     with Client(identity=identity) as client:
         return (
-            client.enrichment(
+            client.get_enrichment(
                 identifiers=identifiers,
                 species=species,
                 background_identifiers=background_identifiers,

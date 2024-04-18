@@ -106,8 +106,8 @@ def test_network(httpx_mock, test_client, format):
         json=True,
     )
 
-    test_client.network(identifiers, species, format=format)
-    test_client.network(
+    test_client.get_network(identifiers, species, format=format)
+    test_client.get_network(
         identifiers=identifiers,
         species=species,
         required_score=1,
@@ -138,7 +138,7 @@ def test_interaction_partners(httpx_mock, test_client, format):
         json=True,
     )
 
-    test_client.interaction_partners(identifiers, species, format=format)
+    test_client.get_interaction_partners(identifiers, species, format=format)
 
 
 @pytest.mark.parametrize("format", ["tsv", "tsv-no-header", "json", "xml"])
@@ -157,7 +157,7 @@ def test_homology(httpx_mock, test_client, format):
         ),
     )
 
-    test_client.homology(identifiers, species, format=format)
+    test_client.get_homology(identifiers, species, format=format)
 
 
 @pytest.mark.parametrize("format", ["tsv", "tsv-no-header", "json", "xml"])
@@ -178,7 +178,7 @@ def test_enrichment(httpx_mock, test_client, format):
         ),
     )
 
-    test_client.enrichment(
+    test_client.get_enrichment(
         identifiers,
         species,
         background_identifiers=background_identifiers,
