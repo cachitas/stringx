@@ -8,13 +8,14 @@ on:
 
 jobs:
   lint:
+    name: Run linters
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: chartboost/ruff-action@v1
 
   test:
-    needs: lint
+    name: Run tests
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -22,21 +23,34 @@ jobs:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up PDM with Python ${{ matrix.python-version }}
         uses: pdm-project/setup-pdm@v4
         with:
           python-version: ${{ matrix.python-version }}
+
       - name: Install dependencies
         run: |
           pdm sync -d -G test
+
       - name: Test with pytest
         run: |
-          pdm run -v test
+          pdm run -v test --junitxml=junit/test-results-${{ matrix.python-version }}.xml
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-results-${{ matrix.python-version }}
+          path: test-results-${{ matrix.python-version }}.xml
+        if: ${{ always() }}
 
   release:
-    needs: test
+    name: Release new version
     runs-on: ubuntu-latest
     concurrency: release
+    needs: [lint, test]
+    if: github.repository == 'cachitas/stringx'
+    environment: PyPI
     permissions:
       id-token: write
       contents: write
@@ -47,6 +61,16 @@ jobs:
           fetch-depth: 0
 
       - name: Python Semantic Release
+        id: release
         uses: python-semantic-release/python-semantic-release@v9.4.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          root_options: "-vv"
+
+      - uses: pdm-project/setup-pdm@v4
+        if: steps.release.outputs.released
+
+      - name: Publish package distributions to PyPI
+        id: pypi-publish
+        if: steps.release.outputs.released
+        run: pdm publish
