@@ -35,14 +35,34 @@ jobs:
 
       - name: Test with pytest
         run: |
-          pdm run -v test --junitxml=junit/test-results-${{ matrix.python-version }}.xml
+          pdm run -v test --junit-xml pytest.xml
 
       - name: Upload test results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pytest-results-${{ matrix.python-version }}
-          path: junit/test-results-${{ matrix.python-version }}.xml
-        if: ${{ always() }}
+          path: pytest.xml
+
+  publish-test-results:
+    name: "Publish Tests Results"
+    runs-on: ubuntu-latest
+    needs: test
+    permissions:
+      checks: write
+      pull-requests: write
+    if: always()
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: "artifacts/**/*.xml"
+
 
   release:
     name: Release new version
