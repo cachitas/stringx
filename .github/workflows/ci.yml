@@ -63,7 +63,6 @@ jobs:
         with:
           files: "artifacts/**/*.xml"
 
-
   release:
     name: Release new version
     runs-on: ubuntu-latest
@@ -80,14 +79,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: pdm-project/setup-pdm@v4
+
       - name: Python Semantic Release
         id: release
         uses: python-semantic-release/python-semantic-release@v9.4.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: pdm-project/setup-pdm@v4
-        if: steps.release.outputs.released == 'true'
 
       - name: Publish package distributions to PyPI
         id: pypi-publish
