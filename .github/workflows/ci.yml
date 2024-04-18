@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pytest-results-${{ matrix.python-version }}
-          path: test-results-${{ matrix.python-version }}.xml
+          path: junit/test-results-${{ matrix.python-version }}.xml
         if: ${{ always() }}
 
   release:
@@ -65,12 +65,11 @@ jobs:
         uses: python-semantic-release/python-semantic-release@v9.4.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          root_options: "-vv"
 
       - uses: pdm-project/setup-pdm@v4
-        if: steps.release.outputs.released
+        if: steps.release.outputs.released == 'true'
 
       - name: Publish package distributions to PyPI
         id: pypi-publish
-        if: steps.release.outputs.released
+        if: steps.release.outputs.released == 'true'
         run: pdm publish
